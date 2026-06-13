@@ -29,11 +29,11 @@ jobs:
           if git cat-file -e "${{ github.event.pull_request.base.sha }}:scripts/validate-git-policy.sh" 2>/dev/null; then
             git show "${{ github.event.pull_request.base.sha }}:scripts/validate-git-policy.sh" > /tmp/validate-git-policy.sh
             chmod +x /tmp/validate-git-policy.sh
-            /tmp/validate-git-policy.sh --range "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+            bash /tmp/validate-git-policy.sh --range "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
           else
-            ./scripts/validate-git-policy.sh --range "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+            bash ./scripts/validate-git-policy.sh --range "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
           fi
 
       - name: Validate current commit
         if: github.event_name == 'workflow_dispatch'
-        run: ./scripts/validate-git-policy.sh --commit "${{ github.sha }}"
+        run: bash ./scripts/validate-git-policy.sh --commit "${{ github.sha }}"
