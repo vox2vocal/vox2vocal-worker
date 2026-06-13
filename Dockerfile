@@ -1,7 +1,14 @@
+# syntax=docker/dockerfile:1.7
 FROM node:22-alpine AS deps
 WORKDIR /app
+ENV npm_config_audit=false \
+  npm_config_fund=false \
+  npm_config_progress=false \
+  npm_config_update_notifier=false
 COPY package*.json ./
-RUN npm ci \
+RUN --mount=type=cache,target=/root/.npm \
+  npm ci \
+  --prefer-offline \
   --fetch-retries=5 \
   --fetch-retry-mintimeout=20000 \
   --fetch-retry-maxtimeout=120000 \
