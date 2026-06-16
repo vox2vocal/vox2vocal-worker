@@ -22,6 +22,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Validate pull request branch
+        if: github.event_name == 'pull_request'
+        run: bash ./scripts/validate-git-policy.sh --branch-name "${{ github.head_ref }}"
+
       - name: Validate pull request commits
         if: github.event_name == 'pull_request'
         run: |

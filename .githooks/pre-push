@@ -16,6 +16,8 @@ while read -r local_ref local_sha remote_ref remote_sha; do
       ;;
   esac
 
+  "$validator" --push-ref "$local_ref" "$remote_ref"
+
   case "$remote_sha" in
     0000000000000000000000000000000000000000)
       commits="$(git rev-list --reverse "$local_sha" --not --remotes="$remote_name" || true)"
